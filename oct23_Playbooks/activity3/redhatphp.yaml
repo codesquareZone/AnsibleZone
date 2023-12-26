@@ -1,0 +1,21 @@
+---
+- name: activity 3
+  hosts: all
+  become: yes
+  tasks:
+  - name: install httpd and php packages
+    ansible.builtin.dnf:
+      name:
+      - httpd
+      - php php-cli 
+      - php-common 
+      - php-gd 
+      - php-mysqlnd 
+      - php-pdo 
+      state: present
+      update_cache: yes
+
+  - name: copy php file
+    ansible.builtin.copy:
+    content: <?php phpinfo(); ?>
+    dest:  /var/www/html/info.php
