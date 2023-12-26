@@ -4,7 +4,7 @@
   become: true
   tasks:
   - name: installing apache2 and php packages
-    ansible.builtin.apt
+    ansible.builtin.apt:
       name: 
       - apache2
       - php
@@ -16,6 +16,6 @@
     ansible.builtin.copy:
       content: <?php phpinfo(); ?>
       dest: /var/www/html/info.php 
-      
+
 
        
