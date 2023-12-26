@@ -14,8 +14,11 @@
       update_cache: yes
   - name: copy php file 
     ansible.builtin.copy:
-      content: <?php phpinfo(); ?>
-      dest: /var/www/html/info.php 
-
+      # content: <?php phpinfo(); ?>
+      # dest: /var/www/html/info.php 
+      # we can use above or below both will work and same
+      src: info.php 
+      dest: /var/www/html/info.php  
+      
 
        
