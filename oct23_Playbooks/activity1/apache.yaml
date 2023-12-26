@@ -2,8 +2,8 @@
 - hosts: all
   become: yes
   tasks:
-  - name: install apche-2
+  - name: install apche 
     name: apache-2
     state: present 
-    update_cache: true
-    
+    update_cache: yes
+ 
