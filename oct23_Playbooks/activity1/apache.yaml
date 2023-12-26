@@ -2,9 +2,9 @@
 - hosts: all
   become: yes
   tasks:
-  - name: install apche
+  - name: install apache server  
     ansible.builtin.apt:   
-    name: apache2
-    state: present 
-    update_cache: true
+      name: apache2
+      state: present 
+      update_cache: true
  
