@@ -3,6 +3,10 @@
   hosts: all
   become: true
   tasks:
+  - name: fail on unsupported operating systems
+    ansible.builtin.fail:
+      msg: "This playbook will work on Debian and RedHat Only"
+    when: ansible_facts["os_family"] != "Debian" and ansible_facts["os_family"] != "RedHat"
   - name: installing apache2 and php packages
     ansible.builtin.apt:
       name: 
