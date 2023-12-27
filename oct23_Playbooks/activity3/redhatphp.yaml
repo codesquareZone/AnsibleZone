@@ -9,9 +9,12 @@
       - httpd
       - php 
       - php-cli 
-      - php-common  
+      - php-common 
+      - php-gd 
+      - php-mysqlnd 
+      - php-pdo 
       state: present
-
+       
   - name: copy php file
     ansible.builtin.copy:
       content: <?php phpinfo(); ?>
