@@ -4,10 +4,11 @@
   become: yes
   tasks:
   - name: install httpd and php packages
-    ansible.builtin.yum:
+    ansible.builtin.dnf:
       name:
       - httpd
-      - php php-cli 
+      - php 
+      - php-cli 
       - php-common  
       state: present
 
