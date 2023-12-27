@@ -17,5 +17,7 @@
 
   - name: copy php file
     ansible.builtin.copy:
-    content: <?php phpinfo(); ?>
-    dest:  /var/www/html/info.php
+      content: <?php phpinfo(); ?>
+      dest:  /var/www/html/info.php
+
+
