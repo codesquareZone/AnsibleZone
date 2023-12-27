@@ -12,12 +12,7 @@
       - php-mysql
       state: present
       update_cache: yes
-    when: ansible_facts['os_family'] == "Debian"  
-  - name: copy php file 
-    ansible.builtin.copy:
-      src: info.php 
-      dest: /var/www/html/info.php
-
+    when: ansible_facts['os_family'] == "Debian" 
   - name: install httpd and php packages
     ansible.builtin.yum:
       name:
@@ -30,10 +25,10 @@
       - php-pdo 
       state: present  
     when: ansible_facts['os_family'] == "RedHat"     
-  - name: copy php file
+  - name: copy php file 
     ansible.builtin.copy:
-      content: <?php phpinfo(); ?>
-      dest:  /var/www/html/info.php
+      src: info.php 
+      dest: /var/www/html/info.php
   
   - name: ensure httpd service should be started and enabled
     ansible.builtin.service:
