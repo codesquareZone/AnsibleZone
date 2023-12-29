@@ -2,8 +2,8 @@
 10.138.0.2 
 
 [webservers]
-10.182.0.2 package_name=apache2 all_packages = '["apache2","php","libapache2-mod-php","php-mysql"]'
-10.182.0.3 package_name=httpd  all_packages = '["httpd","php", "php-cli", "php-common", "php-gd", "php-mysqlnd", "php-pdo"]'
+10.182.0.2 package_name=apache2 all_packages='["apache2","php","libapache2-mod-php","php-mysql"]'
+10.182.0.3 package_name=httpd  all_packages='["httpd","php", "php-cli", "php-common", "php-gd", "php-mysqlnd", "php-pdo"]'
 
 
 
