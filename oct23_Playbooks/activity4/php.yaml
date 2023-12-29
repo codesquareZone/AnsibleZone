@@ -10,25 +10,16 @@
   - name: print the value
     ansible.builtin.debug:
       var: all_packages   
-  - name: installing apache2 and php packages
-    ansible.builtin.apt:
+  - name: install httpd/apache2 and php packages
+    ansible.builtin.package:
       name: "{all_packages}"
-      state: present
-      update_cache: yes
-    when: ansible_facts['os_family'] == "Debian"  
-  - name: install httpd and php packages
-    ansible.builtin.yum:
-      name: "{all_packages}"
-      state: present  
-    when: ansible_facts['os_family'] == "RedHat"     
+      state: present       
   - name: copy php file
     ansible.builtin.copy:
       content: <?php phpinfo(); ?>
       dest:  /var/www/html/info.php
-  
   - name: ensure httpd service should be started and enabled
     ansible.builtin.service:
       name: "{package_name}"
       state: started
       enabled: true
-    when: ansible_facts['os_family'] == "RedHat"
