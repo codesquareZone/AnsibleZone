@@ -21,6 +21,6 @@
       dest:  /var/www/html/info.php
   - name: ensure httpd service should be started and enabled
     ansible.builtin.service:
-      name: "{package_name}"
+      name: "{{ package_name }}"
       state: started
       enabled: true
