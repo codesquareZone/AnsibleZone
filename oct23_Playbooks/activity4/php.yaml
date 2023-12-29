@@ -12,8 +12,9 @@
       var: all_packages   
   - name: install httpd/apache2 and php packages
     ansible.builtin.package:
-      name: "{all_packages}"
-      state: present       
+      name: "{{ item }}"
+      state: present  
+    loop: "{{ all_packages }}"       
   - name: copy php file
     ansible.builtin.copy:
       content: <?php phpinfo(); ?>
