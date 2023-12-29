@@ -12,24 +12,13 @@
       var: all_packages   
   - name: installing apache2 and php packages
     ansible.builtin.apt:
-      name: 
-      - apache2
-      - php
-      - libapache2-mod-php
-      - php-mysql
+      name: "{all_packages}"
       state: present
       update_cache: yes
     when: ansible_facts['os_family'] == "Debian"  
   - name: install httpd and php packages
     ansible.builtin.yum:
-      name:
-      - httpd
-      - php 
-      - php-cli 
-      - php-common 
-      - php-gd 
-      - php-mysqlnd 
-      - php-pdo 
+      name: "{all_packages}"
       state: present  
     when: ansible_facts['os_family'] == "RedHat"     
   - name: copy php file
@@ -39,7 +28,7 @@
   
   - name: ensure httpd service should be started and enabled
     ansible.builtin.service:
-      name: httpd
+      name: "{package_name}"
       state: started
       enabled: true
     when: ansible_facts['os_family'] == "RedHat"
