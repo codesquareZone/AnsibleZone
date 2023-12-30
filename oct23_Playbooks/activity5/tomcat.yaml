@@ -9,14 +9,14 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.17
-  
+    download_url: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
   tasks:
     - name: install jdk 
       ansible.builtin.apt:
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
-    - name: Ensure group "some group" exists
+    - name: Ensure group "somegroup" exists
       ansible.builtin.group:
         name: "{{groupname}}"
         state: present    
@@ -26,13 +26,16 @@
         group: "{{groupname}}"
         home: "{{homedir}}"
         create_home: true
-        shell: "{{shell}} 
- 
-    - name: download and extract tomcat
-      ansible.builtin.unarchive: 
-        src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+        shell: "{{shell}}"
+    - name: download tomcat version    
+      ansible.builtin.get_url:
+        url: "{{download_url}}"
+        dest: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+    - name: extract tomcat
+      ansible.builtin.unarchive:
+        copy: false 
+        src: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
         creates:  "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
         dest: "{{ homedir }}"
         group: "{{ groupname }}"
-        owner: "{{ username }}"  
-        remote_src: yes    
+        owner: "{{ username }}"       
