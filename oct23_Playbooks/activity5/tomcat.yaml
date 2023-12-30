@@ -34,8 +34,8 @@
     - name: extract tomcat
       ansible.builtin.unarchive:
         copy: false 
-        src: "/tmp/apache-tomcat-{{tomcat_specific_version}}.tar.gz"
-        creates:  "{{ homedir }}/apache-tomcat-{{tomcat_specific_version}}"
-        dest: "{{homedir}}"
-        group: "{{groupname}}"
-        owner: "{{username}}"       
+        src: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+        creates:  "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+        dest: "{{ homedir }}"
+        group: "{{ groupname }}"
+        owner: "{{ username }}"       
