@@ -9,7 +9,6 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.17
-    download_url: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
   tasks:
     - name: install jdk 
       ansible.builtin.apt:
@@ -29,7 +28,7 @@
         shell: "{{shell}}"
     - name: download tomcat version    
       ansible.builtin.get_url:
-        url: "{{download_url}}"
+        url: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
     - name: extract tomcat
       ansible.builtin.unarchive:
