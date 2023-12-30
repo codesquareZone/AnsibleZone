@@ -3,9 +3,9 @@
   hosts: all
   become: true
   tasks:
-  - name: print the value
+  - name: print the value for purpose
     ansible.builtin.debug:
-      var: all_packages
+      var: purpose
   - name: fail on unsupported operating systems
     ansible.builtin.fail:
       msg: "This playbook will work on Debian and RedHat Only"
