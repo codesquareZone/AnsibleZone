@@ -10,7 +10,7 @@
   tasks:
     - name: install jdk 
       ansible.builtin.apt:
-        name: "openjdk-{{ java_version }}-jdk -y"
+        name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
     - name: Ensure group "somegroup" exists
