@@ -16,7 +16,7 @@
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
-    - name: Ensure group "tomcat" exists
+    - name: Ensure group "some group" exists
       ansible.builtin.group:
         name: "{{groupname}}"
         state: present    
