@@ -8,7 +8,7 @@
     groupname: tomcat
     shell: /bin/false
     tomcat_major_version: 10
-    tomcat_specific_version: 10.1.14
+    tomcat_specific_version: 10.1.17
     download_url: 
   tasks:
     - name: install jdk 
