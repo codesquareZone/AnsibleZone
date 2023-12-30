@@ -4,3 +4,4 @@ all_packages:
 - libapache2-mod-php
 - php-mysql
 package_name: apache2 
+purpose: practice
