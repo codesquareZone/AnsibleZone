@@ -1,6 +1,3 @@
----
-
-package_name: httpd  
 all_packages:
 - httpd
 - php
@@ -9,3 +6,4 @@ all_packages:
 - php-gd
 - php-mysqlnd
 - php-pdo
+package_name: httpd 
