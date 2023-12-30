@@ -9,6 +9,7 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.17
+  
   tasks:
     - name: install jdk 
       ansible.builtin.apt:
