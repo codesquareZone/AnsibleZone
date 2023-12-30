@@ -30,7 +30,7 @@
       ansible.builtin.file:
         group: "{{ groupname }}"
         owner: "{{ username }}"
-        path:  "{{homedir}}"
+        path:  "{{homedir}}" 
         state: directory
         mode: '0755'   
     - name: download and extract tomcat
