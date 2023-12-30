@@ -29,6 +29,6 @@
         shell: "{{shell}}"
     - name: download tomcat version    
       ansible.builtin.get_url
-        url: "{{ download_url }}"
+        url: "{{download_url}}"
         dest: "/tmp/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
         
