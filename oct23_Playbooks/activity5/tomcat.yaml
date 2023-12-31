@@ -58,7 +58,7 @@
         group: "{{groupname}}"
     - name: get all the shell files
       ansible.builtin.command: sudo sh -c  'ls -al /opt/tomcat/latest/bin/*.sh'
-        register: shell_files
+      register: shell_files
     - name: print the shel files value
       ansible.builtin.debug
         var: shell_files    
