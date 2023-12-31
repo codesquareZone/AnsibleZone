@@ -65,8 +65,8 @@
     - name: add execute permission to shell files
       ansible.builtin.file:
         path: "{{item}}"
-        group: "{{groupname}}"
         owner: "{{username}}" 
-        mode: '0751'  
+        group: "{{groupname}}"
+        mode: "0751"  
       loop: "{{shell_files.stdout_lines}}"      
 
