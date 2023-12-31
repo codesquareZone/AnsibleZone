@@ -26,6 +26,14 @@
         home: "{{homedir}}"
         create_home: true
         shell: "{{shell}}"
+    - name: create dirtory tomcat
+      ansible.builtin.file:
+        path: "{{homedir}}" 
+        state: directory
+        mode: 0755
+        group: "{{groupname}}"
+        owner: "{{username}}"
+
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
