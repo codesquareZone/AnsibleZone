@@ -42,3 +42,11 @@
         group: "{{ groupname }}"
         owner: "{{ username }}"  
         remote_src: true  
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+        dest: "{{ homedir }}"
+        owner: "{{username}}"
+        group: "{{groupname}}"
+        state: link    
+
