@@ -61,4 +61,10 @@
       register: shell_files
     - name: print the shel files value
       ansible.builtin.debug:
-        var: shell_files    
+        var: shell_files
+    - name: print each files 
+      ansible.builtin.debug:
+        msg: "{{item}}"  
+      loop: "{{shell_files.stdout_lines}}"      
+      
+        
