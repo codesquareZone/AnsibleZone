@@ -77,4 +77,5 @@
         mode: "0751"
       loop: "{{ shell_files.stdout_lines }}"     
     
+
         
