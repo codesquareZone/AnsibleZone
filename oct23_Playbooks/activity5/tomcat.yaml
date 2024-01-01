@@ -82,7 +82,7 @@
         dest: "{{service_file_path}}"
       when: ansible_facts["os_family"] == "Debian"  
     - name: reload daemon, enable and start tomcat
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         name: tomcat
         daemon_reload: true
         enabled: true
