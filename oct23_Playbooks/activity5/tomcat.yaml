@@ -9,13 +9,20 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.17
+    java_version: "11"
   tasks:
-    - name: install jdk 
+    - name: install jdk on ubuntu 
       ansible.builtin.apt:
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
-    - name: Ensure group "somegroup" exists
+      when: ansible_facts["os_family"] == "Debian"
+    - name: install jdk on RedHat
+      ansible.builtin.yum:
+        name: "java-{{ java_version }}-openjdk"
+        state: present
+      when: ansible_facts["os_family"] == "RedHat"    
+    - name: Ensure group "tomcat" exists
       ansible.builtin.group:
         name: "{{groupname}}"
         state: present    
@@ -33,7 +40,6 @@
         mode: 0755
         group: "{{groupname}}"
         owner: "{{username}}"
-
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
