@@ -10,6 +10,7 @@
     tomcat_major_version: 10
     tomcat_specific_version: 10.1.17
     java_version: "11"
+    service_file_path: "/etc/systemd/system/tomcat.service"
   tasks:
     - name: install jdk on ubuntu 
       ansible.builtin.apt:
@@ -75,4 +76,16 @@
         group: "{{ groupname }}"
         mode: "0751"
       loop: "{{ shell_files.stdout_lines }}"     
-
+    - name: copy contents to service file
+      ansible.builtin.template:
+        src: templates/tomcat_ubuntu.j2 
+        dest: "{{service_file_path}}"
+      when: ansible_facts["os_family"] == "Debian"  
+    - name: reload daemon, enable and start tomcat
+      ansible.builtin.systemd_service:
+        name: tomcat
+        state: started
+        daemon_reload: true
+        enabled: true
+      when: ansible_facts["os_family"] == "Debian"
+        
