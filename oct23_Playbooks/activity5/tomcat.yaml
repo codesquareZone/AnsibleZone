@@ -92,7 +92,7 @@
         name: tomcat
         daemon_reload: true
         enabled: true
-        state: restarted   
+        state: started   
     - name: Create a symbolic link
       ansible.builtin.file:
         src: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
