@@ -1,0 +1,6 @@
+---
+- name: call first playbook
+  ansible.builtin.import_playbook: first.yaml
+- name: call second playbook
+  ansible.builtin.import_playbook: second.yaml
+    
