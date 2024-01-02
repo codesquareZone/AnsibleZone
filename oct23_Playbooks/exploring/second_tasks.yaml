@@ -1,0 +1,4 @@
+---
+- name: print message
+  ansible.builtin.debug:
+    msg: "This is second"
