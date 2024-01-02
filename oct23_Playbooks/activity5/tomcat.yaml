@@ -20,16 +20,22 @@
         name: "openjdk-{{ java_version }}-jdk"
         update_cache: yes
         state: present
+      tags:
+        - install jdk   
       when: ansible_facts["os_family"] == "Debian"
     - name: install jdk on RedHat
       ansible.builtin.yum:
         name: "java-{{ java_version }}-openjdk"
         state: present
+      tags:
+        - install jdk  
       when: ansible_facts["os_family"] == "RedHat"    
     - name: Ensure group "tomcat" exists
       ansible.builtin.group:
         name: "{{groupname}}"
-        state: present    
+        state: present  
+      tags:
+        - create group     
     - name: create user tomcat
       ansible.builtin.user:
         name: "{{username}}"
@@ -37,6 +43,8 @@
         home: "{{homedir}}"
         create_home: true
         shell: "{{shell}}"
+      tags:
+        - configure  
     - name: create dirtory tomcat
       ansible.builtin.file:
         path: "{{homedir}}" 
@@ -44,6 +52,8 @@
         mode: 0755
         group: "{{groupname}}"
         owner: "{{username}}"
+      tags:
+        - configure    
     - name: extract tomcat
       ansible.builtin.unarchive:
         src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
@@ -52,6 +62,8 @@
         group: "{{ groupname }}"
         owner: "{{ username }}"  
         remote_src: true  
+      tags:
+        - configure    
       notify:
         - Create a symbolic link
     - name: Force all notified handlers to run at this point, not waiting for normal sync points/at the end 
@@ -64,6 +76,8 @@
         recurse: yes
         owner: "{{username}}"
         group: "{{groupname}}"
+      tags:
+        - change   
     - name: get all the shell files
       ansible.builtin.command: sudo sh -c  'ls /opt/tomcat/latest/bin/*.sh'
       register: shell_files
@@ -91,6 +105,8 @@
         dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
         owner: "{{ username }}"
         group: "{{ groupname }}"
+      tags:
+        - copy   
       notify:
         - restart tomcat
     - name: copy context.xml
@@ -106,6 +122,8 @@
       ansible.builtin.systemd_service:
         name: tomcat
         state: started
+      tags:
+        - start service   
   handlers:
     - name: restart tomcat
       ansible.builtin.systemd_service:
