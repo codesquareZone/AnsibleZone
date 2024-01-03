@@ -2,4 +2,4 @@
 - hosts: appservers
   become: yes
   roles:
-    - tomcat10 
+    - role: 'roles/tomcat10'
