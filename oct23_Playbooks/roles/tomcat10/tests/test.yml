@@ -1,5 +1,5 @@
 ---
-- hosts: appservers
-  become: yes
+- hosts: localhost
+  remote_user: root
   roles:
-    - role: 'roles/tomcat10'
+    - apache-webserver
