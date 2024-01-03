@@ -104,8 +104,8 @@
     - restart tomcat         
 - name: Ensure tomcat is running
   ansible.builtin.systemd_service:
-  name: tomcat
-  state: started
+    name: tomcat
+    state: started
   tags:
     - start 
     
