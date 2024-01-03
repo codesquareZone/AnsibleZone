@@ -1,0 +1,111 @@
+---
+- name: install jdk on ubuntu 
+  ansible.builtin.apt:
+    name: "openjdk-{{ java_version }}-jdk"
+    update_cache: yes
+    state: present
+  tags:
+    - install 
+  when: ansible_facts["os_family"] == "Debian"
+- name: install jdk on RedHat
+  ansible.builtin.yum:
+    name: "java-{{ java_version }}-openjdk"
+    state: present
+  tags:
+    - install 
+  when: ansible_facts["os_family"] == "RedHat"    
+- name: Ensure group "tomcat" exists
+  ansible.builtin.group:
+    name: "{{groupname}}"
+    state: present  
+  tags:
+    - group     
+- name: create user tomcat
+  ansible.builtin.user:
+    name: "{{username}}"
+    group: "{{groupname}}"
+    home: "{{homedir}}"
+    create_home: true
+    shell: "{{shell}}"
+  tags:
+    - configure  
+- name: create dirtory tomcat
+  ansible.builtin.file:
+    path: "{{homedir}}" 
+    state: directory
+    mode: 0755
+    group: "{{groupname}}"
+    owner: "{{username}}"
+  tags:
+    - configure    
+- name: extract tomcat
+  ansible.builtin.unarchive:
+    src: "https://dlcdn.apache.org/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_specific_version }}/bin/apache-tomcat-{{ tomcat_specific_version }}.tar.gz"
+    creates: "{{ homedir }}/apache-tomcat-{{ tomcat_specific_version }}"
+    dest: "{{ homedir }}"
+    group: "{{ groupname }}"
+    owner: "{{ username }}"  
+    remote_src: true  
+  tags:
+    - configure    
+  notify:
+    - Create a symbolic link
+- name: Force all notified handlers to run at this point, not waiting for normal sync points/at the end 
+  ansible.builtin.meta: flush_handlers 
+
+- name: Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: "{{ homedir }}"
+    state: directory
+    recurse: yes
+    owner: "{{username}}"
+    group: "{{groupname}}"
+  tags:
+    - change   
+- name: get all the shell files
+  ansible.builtin.command: sudo sh -c  'ls /opt/tomcat/latest/bin/*.sh'
+  register: shell_files
+  notify:
+    - restart tomcat
+- name: print the shel files value
+  ansible.builtin.debug:
+    var: shell_files
+- name: add execute permission
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+    mode: "0751"
+  loop: "{{ shell_files.stdout_lines }}"     
+- name: copy contents to service file
+  ansible.builtin.template:
+    src: tomcat.j2 
+    dest: "{{service_file_path}}" 
+  notify:
+    - restart tomcat 
+- name: copy tomcat-users.xml
+  ansible.builtin.template:
+    src: tomcat-users.xml.j2
+    dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+  tags:
+    - copy   
+  notify:
+    - restart tomcat
+- name: copy context.xml
+  ansible.builtin.template:
+    src: context.xml.j2
+    dest: "{{ item }}"
+  with_items:
+    - "{{ homedir }}/latest/webapps/manager/META-INF/context.xml"
+    - "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
+  notify:
+    - restart tomcat         
+- name: Ensure tomcat is running
+  ansible.builtin.systemd_service:
+    name: tomcat
+    state: started
+  tags:
+    - start 
+    
